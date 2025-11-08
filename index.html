@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>Personal Finance Tracker</h1>
+                <div class="actions">
+                    <button id="exportBtn" class="btn btn-outline">Export CSV</button>
+                    <button id="manageCategoriesBtn" class="btn btn-outline">Manage Categories</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="balance-card">
+            <h2>Current Balance</h2>
+            <div id="balanceAmount" class="balance-amount positive">$0.00</div>
+            <div class="balance-details">
+                <span>Income: <span id="totalIncome" class="positive">$0.00</span></span> | 
+                <span>Expenses: <span id="totalExpenses" class="negative">$0.00</span></span>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" data-tab="transactions">Transactions</div>
+            <div class="tab" data-tab="charts">Charts</div>
+            <div class="tab" data-tab="add">Add Transaction</div>
+        </div>
+
+        <div id="transactions" class="tab-content active">
+            <div class="card">
+                <div class="card-title">Transaction History</div>
+                <div class="filters">
+                    <select id="typeFilter">
+                        <option value="all">All Types</option>
+                        <option value="income">Income</option>
+                        <option value="expense">Expense</option>
+                    </select>
+                    <select id="categoryFilter">
+                        <option value="all">All Categories</option>
+                    </select>
+                    <select id="dateFilter">
+                        <option value="all">All Time</option>
+                        <option value="today">Today</option>
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                        <option value="year">This Year</option>
+                    </select>
+                    <input type="text" id="searchFilter" placeholder="Search transactions...">
+                    <button id="clearFilters" class="btn btn-outline">Clear Filters</button>
+                </div>
+                <div class="table-container">
+                    <table id="transactionsTable">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Category</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionsBody">
+                            <!-- Transactions will be populated here -->
+                        </tbody>
+                    </table>
+                    <div id="emptyTransactions" class="empty-state">
+                        <i>📊</i>
+                        <h3>No transactions yet</h3>
+                        <p>Add your first transaction to get started</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="charts" class="tab-content">
+            <div class="card">
+                <div class="card-title">Income vs Expenses</div>
+                <div class="chart-container">
+                    <canvas id="incomeExpenseChart"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">Expense Breakdown</div>
+                <div class="chart-container">
+                    <canvas id="expenseChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div id="add" class="tab-content">
+            <div class="card">
+                <div class="card-title">Add New Transaction</div>
+                <form id="transactionForm">
+                    <div class="form-group">
+                        <label for="transactionType">Type</label>
+                        <select id="transactionType" required>
+                            <option value="income">Income</option>
+                            <option value="expense">Expense</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="transactionAmount">Amount</label>
+                        <input type="number" id="transactionAmount" step="0.01" min="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="transactionDescription">Description</label>
+                        <input type="text" id="transactionDescription" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="transactionCategory">Category</label>
+                        <select id="transactionCategory" required>
+                            <!-- Categories will be populated here -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="transactionDate">Date</label>
+                        <input type="date" id="transactionDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="transactionNotes">Notes (Optional)</label>
+                        <textarea id="transactionNotes" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Transaction</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manage Categories Modal -->
+    <div id="categoriesModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Manage Categories</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="form-group">
+                <label for="newCategoryName">Category Name</label>
+                <input type="text" id="newCategoryName" placeholder="Enter category name">
+            </div>
+            <div class="form-group">
+                <label for="newCategoryType">Category Type</label>
+                <select id="newCategoryType">
+                    <option value="income">Income</option>
+                    <option value="expense">Expense</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="newCategoryColor">Color</label>
+                <input type="color" id="newCategoryColor" value="#4361ee">
+            </div>
+            <button id="addCategoryBtn" class="btn btn-primary">Add Category</button>
+            
+            <div class="category-list" id="categoriesList">
+                <!-- Categories will be listed here -->
+            </div>
+        </div>
+    </div>
+    <script src="./style.js"></script>
+</body>
+</html>
